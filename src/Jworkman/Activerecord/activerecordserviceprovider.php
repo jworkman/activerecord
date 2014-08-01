@@ -33,12 +33,16 @@ class ActiverecordServiceProvider extends ServiceProvider {
             return new ActiverecordConsole();
         });
 
+        $this->app['activerecord:model'] = $this->app->share(function(){
+            return new ActiverecordModel();
+        });
+
         $this->app['activerecord:scaffold'] = $this->app->share(function(){
             return new ActiverecordScaffold();
         });
 
         $this->commands(
-            array('activerecord:console', 'activerecord:scaffold')
+            array('activerecord:console', 'activerecord:scaffold', 'activerecord:model')
         );
 	}
 
