@@ -31,7 +31,7 @@ You can easily create models, and scaffolds using the artisain activerecord gene
 
 It will ask you for your interfaces. These are just abstract data types you would like to assign to your model. A model can have as many interfaces as you choose. Here is a list of interfaces avialable for you to use. 
 
-	name:String:Capitalize size:Integer star_id:Integer
+	name:String:Capitalize size:Integer star_id:Integer created:TimeStamp
 
 After it generates your model it will write it to app/models/<Model>.php. Open this in your text editor and edit the $attr_accessible property. List out all the fields that you would like mass assignment unlocked to. 
 
@@ -143,16 +143,345 @@ Sometimes its useful to update a model quickly with a form submition. Here we ca
 
 	Planet::find( 1 )->update( $_POST['new_planet_data'] );
 
+## Converting Models
+
+Typicly with APIs and other software packages you will deal with less abstract, and more basic data types that PHP offers. Most packages will not understand what an Activerecord model, or collection is. So instead we will have to give them a more basic data type to use. 
+
+We can turn JUST the data of our model into an array by calling the "toArray" method of a model. 
+
+	Planet::find( 1 )->toArray();
+
+The above builds an array from the model and returns it. Lets say you would like to turn a model into an array, but not certain fields of that model. We can specify a list of fields to avoid as the first parameter. The below example exports all the fields in the model EXCEPT the 'id' field. 
+
+	Planet::find( 1 )->toArray([ 'id' ]);
+
+We can also export a model directly to JSON format. This is useful for creating APIs with our models. 
+
+	Planet::find( 1 )->toJSON();
+
+The same goes for "toJSON" when it comes to avoiding specific fields from exporting. 
+
+	Planet::find( 1 )->toJSON([ 'id' ]);
+
+We can also run the same two methods on entire data collections. The following shows how to run it on a collection.
+
+	Planet::all()->toArray();
+	Planet::all()->toJSON();
+
+	// OR to exclude fields
+
+	Planet::all()->toArray([ 'id' ]);
+	Planet::all()->toJSON([ 'id' ]);
+
+There is also a "toXML" method on both models, and collections. The same syntax is used for that. However XML is no longer used as the primary language between web applications. You should be using JSON instead.
+
+
+## Interfaces
+
+Interfaces help you interact more effectively between your model and database. They can be basicly categorized as data typing your model fields. 
+
+When you specify a field as a Boolean the "Boolean" interface handles all data transactions between the actual field value in the model, and the field value in the database. 
+
+An example of this is a boolean field. The field should be treated as "true", or "false." But in the databse a "1", or a "0." Interfaces help take care of all that for you. The "TimeStamp" interface stores as a string in the database, but when referenced in the ORM its a DateTime object.
+
+	Planet::find(1)->created = new DateTime();
+	// Gets stored in the database as a string
+
+	Planet::find(1)->created->format("M/d/Y");
+	// The property "created" is a date time object when fetched
+
+
+### Boolean
+
+*Definition Syntax*
+
+	protected $interfaces = [
+		'name' => 'Boolean'
+	];
+
+Treats the field as a "true", or "false" boolean. Then stores the value as a 1, or 0 in the database.
+
+	// Stores in DB as 1
+	Planet::find( 1 )->active = true;
+
+	// Evaluated as true
+	Planet::find( 1 )->active;
+
+### Capitalize
+
+*Definition Syntax*
+
+	protected $interfaces = [
+		'name' => 'Capitalize'
+	];
+
+Upercases the first letter of the expected string type. 
+
+	$planet = Planet::find( 1 );
+
+	$planet->name = "earth";
+
+	echo $planet->name; // Outputs => "Earth"
+
+
+### Concat
+
+*Definition Syntax*
+
+	protected $interfaces = [
+		'name' => 'Concat(<String to Concatinate>)'
+	];
+
+Concatinates the value with the value specified by the first paramter in interface.
+	
+	// Interface set to 'Concat(My)'
+	
+	$planet = Planet::find( 1 );
+
+	$planet->name = "earth";
+
+	echo $planet->name; // Outputs => "Myearth"
+
+### Delimiter
+
+*Definition Syntax*
+
+	protected $interfaces = [
+		'list' => 'Delimiter(<Delimiter>)'
+	];
+
+Stores the string value while treating the value as an array delimited by the first parameter in interface. 
+
+
+	// Interface set to 'Delimiter'
+	
+	$planet = Planet::find( 1 );
+
+	$planet->list = "item1,item2,item3";
+
+	print_r($planet->list); // Outputs => array( 'item1', 'item2', 'item3' )
+
+
+### Encrypt
+
+*Definition Syntax*
+
+	protected $interfaces = [
+		'encrypted' => 'Encrypt'
+	];
+
+Encrypts a string that is assigned to the model. The data is not preserved so once assigned to the model the string is permanently encrypted. This method uses the Laravel encrypt function.
+
+
+	$planet = Planet::find( 1 );
+
+	$planet->encrypted = "my encrypted string";
+
+	echo $planet->encrypted // Outputs => ## some long hash value ##
+
+
+
+### Integer
+
+*Definition Syntax*
+
+	protected $interfaces = [
+		'size' => 'Integer'
+	];
+
+Treats the stored, and interfaced property as an integer. 
+
+
+	$planet = Planet::find( 1 );
+
+	$planet->size = "50000";
+
+	var_dump($planet->size) // Outputs => (int)50000
+
+
+### JSON
+
+*Definition Syntax*
+
+	protected $interfaces = [
+		'data' => 'JSON'
+	];
+
+Stores the value of the property as JSON, and treats the property as an associative array in php. 
+
+
+	$planet = Planet::find( 1 );
+
+	// Stores in DB as JSON string
+	$planet->data = array( "myProperty" => "value" );
+
+
+	var_dump($planet->data) // Outputs => (array)[ "myProperty" => "value" ]
+
+
+### LowerCase
+
+*Definition Syntax*
+
+	protected $interfaces = [
+		'name' => 'LowerCase'
+	];
+
+Stores and treats the value as an all lowercase string. All letters are lowercase in the string. 
+
+	$planet = Planet::find( 1 );
+
+	$planet->name = "MY EARTH";
+
+	echo $planet->name; // Outputs => "my earth"
 
 
 
 
+### Plural
+
+*Definition Syntax*
+
+	protected $interfaces = [
+		'name' => 'Plural'
+	];
+
+Stores and treats the value as a plural string.
+
+	$planet = Planet::find( 1 );
+
+	$planet->name = "Earth";
+
+	echo $planet->name; // Outputs => "Earths"
+
+
+### Singular
+
+*Definition Syntax*
+
+	protected $interfaces = [
+		'name' => 'Singular'
+	];
+
+Stores and treats the value as a singular string.
+
+	$planet = Planet::find( 1 );
+
+	$planet->name = "Earths";
+
+	echo $planet->name; // Outputs => "Earth"
+
+
+### Replace
+
+*Definition Syntax*
+
+	protected $interfaces = [
+		'name' => 'Replace(<Needle>, <Replace>)'
+	];
+
+Stores and treats the value as a plural string.
+
+
+	// Interface set to 'Replace(Earth, Mars)'
+
+	$planet = Planet::find( 1 );
+
+	$planet->name = "Earth";
+
+	echo $planet->name; // Outputs => "Mars"
+
+
+
+### Serialize
+
+*Definition Syntax*
+
+	protected $interfaces = [
+		'data' => 'Serialize'
+	];
+
+Stores an object as a serialized object in the database. Treats the object as the unserialized version in php. Operates simular to JSON interface, but without using JSON. 
+
+	$planet = Planet::find( 1 );
+
+	$planet->data = array( "myProperty" => "value" );
+
+	var_dump($planet->data) // Outputs => (array)[ "myProperty" => "value" ]
 
 
 
 
+### String
+
+*Definition Syntax*
+
+	protected $interfaces = [
+		'size' => 'String'
+	];
+
+Treats the stored, and interfaced property as a string. 
 
 
+	$planet = Planet::find( 1 );
+
+	$planet->size = 50000;
+
+	var_dump($planet->size) // Outputs => (string) "50000"
+
+
+
+### TimeStamp
+
+*Definition Syntax*
+
+	protected $interfaces = [
+		'created' => 'TimeStamp'
+	];
+
+Stores the object as a string timestamp in database, and treats the value as a DateTime object in php.
+
+	$planet = Planet::find( 1 );
+
+	echo $planet->created->format( 'Y/m/D' )  // Outputs the date in a string
+
+	// Stores as a MySQL TimeStamp string
+	$planet->created = new DateTime();
+
+
+### Trim
+
+*Definition Syntax*
+
+	protected $interfaces = [
+		'name' => 'Trim'
+	];
+
+Stores the string version of the value assigned without extra whitespace.
+
+	$planet = Planet::find( 1 )
+
+	$planet->name = " Earth ";
+
+	echo $planet->name; // Outputs "Earth"
+
+
+
+### UpperCase
+
+*Definition Syntax*
+
+	protected $interfaces = [
+		'name' => 'UpperCase'
+	];
+
+Stores and treats the string with all letters as capital letters
+
+	$planet = Planet::find( 1 )
+
+	$planet->name = "earth";
+
+	echo $planet->name; // Outputs "EARTH"
 
 
 
