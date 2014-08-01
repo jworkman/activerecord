@@ -1,0 +1,13 @@
+<?php
+
+use \Jworkman\Activerecord\Model;
+
+class {{Singular}} extends Model {
+
+    CONST TABLE = "{{Plural}}";
+
+    protected $interfaces = [
+        {{Interfaces}}
+    ];
+
+}

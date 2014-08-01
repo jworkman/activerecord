@@ -1,0 +1,117 @@
+<?php
+
+use Jworkman\Activerecord\RESTController;
+
+class {{Singular}}Controller extends RESTController {
+
+    /*
+    |--------------------------------------------------------------------------
+    | Generated REST controller for {{Plural}}
+    |--------------------------------------------------------------------------
+    |
+    | Controller uses the standard REST configuration of HTTP 1.0 standards.
+    |
+    |
+    |	GET     /{{PluralLower}}            - Displays a list of all {{Plural}}
+    |	GET     /{{PluralLower}}/:id        - Displays just one {{Singular}}
+    |	GET     /{{PluralLower}}/new        - Shows the form for creating a new {{Singular}}
+    |	GET     /{{PluralLower}}/:id/edit   - Shows the form for updating an existing {{Singular}}
+    |	POST    /{{PluralLower}}            - Creates a new {{Singular}}
+    |	PUT     /{{PluralLower}}/:id        - Updates an existing {{Singular}}
+    |	DELETE  /{{PluralLower}}/:id        - Removes an exisitng {{Singular}}
+    |
+    */
+
+    /*
+       GET  /{{PluralLower}}
+    */
+    public function index()
+    {
+
+        // !!! IMPORTANT !!! Please update this to paginate results
+        return Response::json( {{Singular}}::all()->toArray() );
+
+    }
+
+    /*
+       GET  /{{PluralLower}}/:id
+    */
+    public function show( $id )
+    {
+
+        return Response::json( {{Singular}}::find($id)->toArray() );
+
+    }
+
+    /*
+       GET  /{{PluralLower}}/new
+    */
+    public function create()
+    {
+        return Response::json( array( 'success' => true ) );
+    }
+
+    /*
+       POST  /{{PluralLower}}
+    */
+    public function make()
+    {
+
+        ${{SingularLower}} = new {{Singular}}();
+
+        if( ${{SingularLower}}->update( Input::all() ) ) {
+            return Response::json(
+                array(
+                        'success' => true,
+                        '{{SingularLower}}' => ${{SingularLower}}->toArray()
+                )
+             );
+        } else {
+            return Response::json( array( 'success' => false, '{{SingularLower}}' => null ) );
+        }
+
+    }
+
+    /*
+       GET  /{{PluralLower}}/:id/edit
+    */
+    public function edit( $id )
+    {
+        return $this->show( $id );
+    }
+
+    /*
+       PUT  /{{PluralLower}}/:id
+    */
+    public function update( $id )
+    {
+        ${{SingularLower}} = {{Singular}}::find( $id );
+
+        if( ${{SingularLower}}->update( Input::all() ) ) {
+            return Response::json(
+                array(
+                        'success' => true,
+                        '{{SingularLower}}' => ${{SingularLower}}->toArray()
+                )
+             );
+        } else {
+            return Response::json( array( 'success' => false, '{{SingularLower}}' => null ) );
+        }
+    }
+
+    /*
+       DELETE  /{{PluralLower}}/:id
+    */
+    public function destroy( $id )
+    {
+
+        if( {{Singular}}::find( $id )->destroy() ) {
+            return Response::json( array( 'success' => true ) );
+        } else {
+            return Response::json( array( 'success' => false ) );
+        }
+
+    }
+
+
+}
