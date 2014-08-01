@@ -99,6 +99,60 @@ The "last" method works the same way, but instead returns the last object in the
 	$last_planet = $planets->last;
 
 
+If you would like to query a model with a specific condition(s) you can call the "where" static function on the model itself. Please do not forget to call "get" at the end of your chain.
+
+	$big_planets = Planets::where( 'size', '>', 400000 )->get();
+
+The example above selects all the planets that have a size of 400000 or bigger. Notice how we have to run "get" at the end of our query. It tells Activerecord that we are done specifiying our conditions and to execute the query.
+
+Say we want to add multiple conditions to our query. We can append another where call to our chain. 
+
+	$big_mass_planets = Planets::where( 'size', '>', 400000 )->where('mass' '>' 400000)->get();
+
+If we want to select all the planets where the size is large, or the mass is large then we would specify "orWhere" in our chain.
+
+	$big_planets = Planet::where( 'size', '>', 400000 )->orWhere('mass' '>', 400000)->get();
+
+We can also limit our returned result. If we do not want more than 10 records from the database we would specify "limit" at the end of our chain.
+
+	$first_ten_big_planets = Planets::where('size', '>', 400000)->limit( 10 )->get();
+
+Pagination also prove useful in today's society so we will need to specify an "offset" call to the end of our chain in order to start the limit at a specific index.
+
+	$big_planets = Planets::where('size', '>', 400000)->limit( 10 )->offset( 10 )->get();
+
+If we want our results ordered by the database we will specify "order" at the end of our collection chain.
+
+	$large_planets_first = Planets::where('size', '>', 400000)->order( 'size', 'DESC' );
+
+Everything has a death at some point. So when you want to remove records from your database we can remove it by calling "destroy" on the model itself. It returns the number of rows effected by the action.
+
+	Planet::find( 1 )->destroy();
+
+If we would like to remove an entire collection we just call "destroy" on the collection object itself. WARNING!!! This can be dangerous if not used properly. This will remove all the records in the collection. The following would destroy all models with the size grater than 400000.
+
+	Planet::where('size', '>', 400000)->destroy();
+
+You can also specify an array of ids to destroy manually. 
+
+	Planet::destroy([ 1, 2, 3, 4 ]);
+	// OR specify parameters
+	Planet::destroy( 1, 2, 3, 4 );
+
+Sometimes its useful to update a model quickly with a form submition. Here we can update a model with an associative array and automaticly save it. You will need to specify $attr_accessible for this call to fill in the values of your model. 
+
+	Planet::find( 1 )->update( $_POST['new_planet_data'] );
+
+
+
+
+
+
+
+
+
+
+
 
 
 
