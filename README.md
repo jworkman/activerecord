@@ -510,7 +510,7 @@ Now if we repeat the same exact code again we will get a different result for th
 The "R" in ORM stands for relational. One of the points of an ORM is to handle your database talbe relationships for you without writing more SQL by hand. 
 
 
-### Belongs To
+#### Belongs To
 
 Lets say I generated a new model called Moon. On the new model I specify a planet_id field. This field will contain the id of the planet that the moon belongs to. We would specify a "belongs_to" relationship in the Moon model.
 
@@ -524,7 +524,7 @@ Now that we have the association setup we can now access those relationships via
 
 	$planet = $moon->planet;
 
-### Has Many
+#### Has Many
 
 Since the moon belongs to a planet we could there for say that a planet CAN have many moons. For this type of relationship we specify a "has_many" relationship. Place the following line in your model file.
 
@@ -539,7 +539,7 @@ Now that we specified the realtionship in our model we can reference it in PHP b
 	$moons  = $planet->moons;
 
 
-### Many To Many
+#### Many To Many
 
 Sometimes a model can have many and belong to many other models. For this we would have to create a middle table that contains both table primary keys. Therefore we can tie the relationship between to models. 
 
@@ -584,12 +584,42 @@ We just moved the namespace alias to "thePlanet." Now in PHP we can reference it
 	$planet = $moon->thePlanet;
 
 
+### Ordering Relationships
+
+When we have a "has_many" relationship we can specify an order on it. This is useful if you want to fetch your related models in order of a particular field. Lets say we want to get all the planets moon from largest size to smallest. We need to specify it on our relationship like the following...
+
+	// Planet.php
+	protected $has_many = [ 'Moons' => [ 'order' => 'size DESC' ] ];
+
+If we want the same models, but from smallest to largest we could do the following...
+	
+	// Planet.php
+	protected $has_many = [ 'Moons' => [ 'order' => 'size' ] ];
+
+
+### Custom Foreign Keys
+
+Sometimes when taking over other projects the database structure isn't structured the way Activerecord expects. Lets say on our Moon table our foreign key is called "planet" instead of "planet_id." We can tell our Moon model to use that foreign key instead.
+
+	// Planet.php
+	protected $has_many = [ 'Moons' => [ 'foreign_key' => 'moon' ] ];
+
+
+### Custom Primary Keys
+
+When you have a table that uses a custom named primary key (instead of "id") you can specify it on that model. Lets say for example that Planet has a primary key of "planet_id" instead of just "id." We can use the "TABLE_PK" constant to override the default.
+
+	// Planet.php
+	const TABLE_PK = "planet";
 
 
 
+### Custom Table Names
 
+Lets say you have a different table name your model uses. We can specify that table name with the "TABLE" constant in your model file. Instead of using the table name "Planets" lets use the table name "planet."
 
-
+	// Planet.php
+	const TABLE = "planet";
 
 
 
