@@ -586,6 +586,7 @@ We need to create a table in our database called GroupsUsers. Inside that table 
 
 
 *GroupsUsers*
+
 | user_id | group_id |
 |---------|----------|
 
