@@ -5,7 +5,7 @@ This is an Object Relational Mapper for Laravel 4. Inspired by Ruby on Rails Act
 
 # Table Of Contents
 
-- [Basic Setup & Installation](#basic-setup-and-installation)
+- [Setup and Installation](#setup-and-installation)
 - [Creating a Model](#creating-a-model)
 - [Querying a Model](#querying-a-model)
 - [Converting Models](#converting-models)
@@ -39,7 +39,7 @@ This is an Object Relational Mapper for Laravel 4. Inspired by Ruby on Rails Act
 
 
 
-## Basic Setup and Installation
+## Setup and Installation
 
 Add the following to your composer.json file located at the root of your Laravel 4 installation.
 
