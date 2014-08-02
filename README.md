@@ -1,45 +1,43 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
-
-- [Laravel Activerecord ORM](#laravel-activerecord-orm)
-  - [Basic Setup & Installation](#basic-setup-&-installation)
-  - [Creating a Model](#creating-a-model)
-  - [Querying a Model](#querying-a-model)
-  - [Converting Models](#converting-models)
-  - [Interfaces](#interfaces)
-      - [Boolean](#boolean)
-      - [Capitalize](#capitalize)
-      - [Concat](#concat)
-      - [Delimiter](#delimiter)
-      - [Encrypt](#encrypt)
-      - [Integer](#integer)
-      - [JSON](#json)
-      - [LowerCase](#lowercase)
-      - [Plural](#plural)
-      - [Singular](#singular)
-      - [Replace](#replace)
-      - [Serialize](#serialize)
-      - [String](#string)
-      - [TimeStamp](#timestamp)
-      - [Trim](#trim)
-      - [UpperCase](#uppercase)
-  - [Mass Assignment](#mass-assignment)
-  - [Relationships & Associations](#relationships-&-associations)
-      - [Belongs To](#belongs-to)
-      - [Has Many](#has-many)
-      - [Many To Many](#many-to-many)
-    - [Aliasing Relationships](#aliasing-relationships)
-    - [Ordering Relationships](#ordering-relationships)
-    - [Custom Foreign Keys](#custom-foreign-keys)
-    - [Custom Primary Keys](#custom-primary-keys)
-    - [Custom Table Names](#custom-table-names)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # Laravel Activerecord ORM
 
 This is an Object Relational Mapper for Laravel 4. Inspired by Ruby on Rails Activerecord. You will find a lot of similarities, but a few differences in the way the two operate. 
+
+
+# Table Of Contents
+
+- [Basic Setup & Installation](#basic-setup-&-installation)
+- [Creating a Model](#creating-a-model)
+- [Querying a Model](#querying-a-model)
+- [Converting Models](#converting-models)
+- [Interfaces](#interfaces)
+    - [Boolean](#boolean)
+    - [Capitalize](#capitalize)
+    - [Concat](#concat)
+    - [Delimiter](#delimiter)
+    - [Encrypt](#encrypt)
+    - [Integer](#integer)
+    - [JSON](#json)
+    - [LowerCase](#lowercase)
+    - [Plural](#plural)
+    - [Singular](#singular)
+    - [Replace](#replace)
+    - [Serialize](#serialize)
+    - [String](#string)
+    - [TimeStamp](#timestamp)
+    - [Trim](#trim)
+    - [UpperCase](#uppercase)
+- [Mass Assignment](#mass-assignment)
+- [Relationships & Associations](#relationships-&-associations)
+    - [Belongs To](#belongs-to)
+    - [Has Many](#has-many)
+    - [Many To Many](#many-to-many)
+  - [Aliasing Relationships](#aliasing-relationships)
+  - [Ordering Relationships](#ordering-relationships)
+  - [Custom Foreign Keys](#custom-foreign-keys)
+  - [Custom Primary Keys](#custom-primary-keys)
+  - [Custom Table Names](#custom-table-names)
+
+
 
 ## Basic Setup & Installation
 
