@@ -584,6 +584,8 @@ We define it in both our models. Lets say we have two different models called Gr
 
 We need to create a table in our database called GroupsUsers. Inside that table we need to define two fields "user_id", and "group_id." The table should look like this...
 
+
+*GroupsUsers*
 | user_id | group_id |
 |---------|----------|
 
