@@ -191,7 +191,7 @@ An example of this is a boolean field. The field should be treated as "true", or
 	// The property "created" is a date time object when fetched
 
 
-### Boolean
+#### Boolean
 
 *Definition Syntax*
 
@@ -207,7 +207,7 @@ Treats the field as a "true", or "false" boolean. Then stores the value as a 1, 
 	// Evaluated as true
 	Planet::find( 1 )->active;
 
-### Capitalize
+#### Capitalize
 
 *Definition Syntax*
 
@@ -224,7 +224,7 @@ Upercases the first letter of the expected string type.
 	echo $planet->name; // Outputs => "Earth"
 
 
-### Concat
+#### Concat
 
 *Definition Syntax*
 
@@ -242,7 +242,7 @@ Concatinates the value with the value specified by the first paramter in interfa
 
 	echo $planet->name; // Outputs => "Myearth"
 
-### Delimiter
+#### Delimiter
 
 *Definition Syntax*
 
@@ -262,7 +262,7 @@ Stores the string value while treating the value as an array delimited by the fi
 	print_r($planet->list); // Outputs => array( 'item1', 'item2', 'item3' )
 
 
-### Encrypt
+#### Encrypt
 
 *Definition Syntax*
 
@@ -281,7 +281,7 @@ Encrypts a string that is assigned to the model. The data is not preserved so on
 
 
 
-### Integer
+#### Integer
 
 *Definition Syntax*
 
@@ -299,7 +299,7 @@ Treats the stored, and interfaced property as an integer.
 	var_dump($planet->size) // Outputs => (int)50000
 
 
-### JSON
+#### JSON
 
 *Definition Syntax*
 
@@ -319,7 +319,7 @@ Stores the value of the property as JSON, and treats the property as an associat
 	var_dump($planet->data) // Outputs => (array)[ "myProperty" => "value" ]
 
 
-### LowerCase
+#### LowerCase
 
 *Definition Syntax*
 
@@ -338,7 +338,7 @@ Stores and treats the value as an all lowercase string. All letters are lowercas
 
 
 
-### Plural
+#### Plural
 
 *Definition Syntax*
 
@@ -355,7 +355,7 @@ Stores and treats the value as a plural string.
 	echo $planet->name; // Outputs => "Earths"
 
 
-### Singular
+#### Singular
 
 *Definition Syntax*
 
@@ -372,7 +372,7 @@ Stores and treats the value as a singular string.
 	echo $planet->name; // Outputs => "Earth"
 
 
-### Replace
+#### Replace
 
 *Definition Syntax*
 
@@ -393,7 +393,7 @@ Stores and treats the value as a plural string.
 
 
 
-### Serialize
+#### Serialize
 
 *Definition Syntax*
 
@@ -412,7 +412,7 @@ Stores an object as a serialized object in the database. Treats the object as th
 
 
 
-### String
+#### String
 
 *Definition Syntax*
 
@@ -431,7 +431,7 @@ Treats the stored, and interfaced property as a string.
 
 
 
-### TimeStamp
+#### TimeStamp
 
 *Definition Syntax*
 
@@ -449,7 +449,7 @@ Stores the object as a string timestamp in database, and treats the value as a D
 	$planet->created = new DateTime();
 
 
-### Trim
+#### Trim
 
 *Definition Syntax*
 
@@ -467,7 +467,7 @@ Stores the string version of the value assigned without extra whitespace.
 
 
 
-### UpperCase
+#### UpperCase
 
 *Definition Syntax*
 
