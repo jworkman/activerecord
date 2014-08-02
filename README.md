@@ -484,6 +484,125 @@ Stores and treats the string with all letters as capital letters
 	echo $planet->name; // Outputs "EARTH"
 
 
+## Mass Assignment
+
+Activerecord models have two methods that allow the model to be quickly updated, or created with an associative array. Both "create", and "update" are methods that can do that for you. However you must specify in your model which fields can be quickly updated. This is for security reasons. 
+
+Below shows how a model field will not be populated if it wasn't specified in the $attr_accessible array in the model.
+
+	$planet = Planet::create( [ 'name' => 'Earth' ] );
+
+	$planet->name // Outputs null
+
+Now to fix this we will add the "name" field to our $attr_accessible array. Open up your model file and add the protect $attr_accessible property to your class. Then add each field you want to be mass assigned.
+
+	protected $attr_accessible = [ 'name' ];
+
+Now if we repeat the same exact code again we will get a different result for the "name" field. 
+
+	$planet = Planet::create( [ 'name' => 'Earth' ] );
+
+	$planet->name // Outputs "Earth"
+
+
+## Relationships & Associations
+
+The "R" in ORM stands for relational. One of the points of an ORM is to handle your database talbe relationships for you without writing more SQL by hand. 
+
+
+### Belongs To
+
+Lets say I generated a new model called Moon. On the new model I specify a planet_id field. This field will contain the id of the planet that the moon belongs to. We would specify a "belongs_to" relationship in the Moon model.
+
+	protected $belongs_to = [ 'Planet' ];
+
+Always remember that you specify the model names in this array as their singular versions. This is because of the context of the relationship. A moon belongs to a Planet (not Planets). 
+
+Now that we have the association setup we can now access those relationships via the Moon model in PHP. Lets say we already have a moon in the database.
+
+	$moon = Moon::find( 1 );
+
+	$planet = $moon->planet;
+
+### Has Many
+
+Since the moon belongs to a planet we could there for say that a planet CAN have many moons. For this type of relationship we specify a "has_many" relationship. Place the following line in your model file.
+
+	protected $has_many = [ 'Moons' ];
+
+Remeber that in a has many relationship the models must be specified by thier plural versions according to context. The same goes for it's access in php. 
+
+Now that we specified the realtionship in our model we can reference it in PHP by doing the following. Lets just say we have a Planet in our database already stored.
+
+	$planet = Planet::find( 1 );
+
+	$moons  = $planet->moons;
+
+
+### Many To Many
+
+Sometimes a model can have many and belong to many other models. For this we would have to create a middle table that contains both table primary keys. Therefore we can tie the relationship between to models. 
+
+We define it in both our models. Lets say we have two different models called Group and User. A User can have many groups while a group can have many users. 
+
+We need to create a table in our database called GroupsUsers. Inside that table we need to define two fields "user_id", and "group_id." 
+
+Once the table is complete we need to specify the relationship in both of our models. They both go in the $has_many relationship. 
+
+	// User.php
+	protected $has_many = [ 'Groups' ];
+
+	// Group.php
+	protected $has_many = [ 'Users' ];
+
+But wait! That didn't work. Thats because we need to tell Activerecord where our middle table is in our database. We can do this by using the "through" directive in our relationship. 
+
+	// User.php
+	protected $has_many = [ 
+		'Groups' => [ 'trough' => 'GroupsUsers' ] 
+	];
+
+	// Group.php
+	protected $has_many = [ 
+		'Users' => [ 'through' => 'GroupsUsers' ] 
+	];
+
+
+
+
+
+### Aliasing Relationships
+
+You can also alias the relationship that is referenced in PHP. This prevents name clashes with any fields that you have in your database table. Lets say I want to access the planet by calling "thePlanet" property instead of "planet." We will need to specify it in our relationship property.
+
+	protected $belongs_to = [ 'Planet' => [ 'as' => 'thePlanet' ] ];
+
+We just moved the namespace alias to "thePlanet." Now in PHP we can reference it just like the following.
+
+	$moon = Moon::find( 1 );
+
+	$planet = $moon->thePlanet;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
